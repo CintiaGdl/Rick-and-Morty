@@ -1,0 +1,8 @@
+body {
+  background-color: brown;
+}
+.App {
+  display: flex;
+  justify-content: center;
+  font-family: fantasy;
+}

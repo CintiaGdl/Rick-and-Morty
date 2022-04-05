@@ -14,21 +14,24 @@ const Gallery = styled.div`
 const Apirequest = () => {
 
     const [character, setCharacter] = useState([]);
-    const { name, handleChange } = useInputsearch();
-    const url = "https://rickandmortyapi.com/api/character"
+    const { name, handleChange } = useInputsearch([]);
+    // const url = "https://rickandmortyapi.com/api/character"
 
     useEffect(() => {
-        const getCharacters = async () => {
-            // let allCharacters = [];
-
-            await axios
-                .get(url)
+        // const getCharacters = async () => {
+        let arrayCharacters = [];
+        for (let index = 1; index <= 42; index++) {
+    
+             axios
+                .get(`https://rickandmortyapi.com/api/character?page=${index}`)
                 .then((res) => {
-                    setCharacter(res.data.results);
+                    for (const character of res.data.results) {
+                        arrayCharacters.push(character)
+                        setCharacter([...arrayCharacters])
+                    }
                 })
-        }
-        getCharacters();
-    }, [])
+            }
+ }, [])
 
     
 
@@ -39,7 +42,6 @@ const Apirequest = () => {
             {/* con character && nos aseguramos primero de que tenemos info en character */}
             <div>
                 <input type='text' value={name} onChange={handleChange} />
-                
                 <Gallery >
                     {character && character
                         .filter((character) => character.name.toLocaleLowerCase().includes(name.toLocaleLowerCase()))
